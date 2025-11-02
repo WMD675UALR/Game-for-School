@@ -1,0 +1,15 @@
+<GameObject id="1">
+    <BodyComponent x="50" y="100" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
+    <SpriteComponent textureKey="coin.png" />
+    <SlideComponet left="0" right="300" />
+</GameObject>
+ 
+<GameObject id="2">
+    <BodyComponent x="150" y="300" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
+    <SpriteComponent textureKey="chest.png" />
+</GameObject>
+ 
+<GameObject id="3">
+    <BodyComponent x="300" y="450" width="128" height="128" velocityX="0" velocityY="0" angle="15" />
+    <SpriteComponent textureKey="BasicBoss.png" />
+</GameObject>
