@@ -11,5 +11,6 @@
  
 <GameObject id="3">
     <BodyComponent x="300" y="450" width="128" height="128" velocityX="0" velocityY="0" angle="15" />
-    <SpriteComponent textureKey="BasicBoss.png" />
+    <SpriteComponent textureKey="DroneFactory.png" />
+    <WanderComponent />
 </GameObject>
