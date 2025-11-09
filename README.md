@@ -1,4 +1,4 @@
-So far contains simple components for the body, sprites, inputs, spawning enemies, chasing, and tracking.
+11/1/2025 Update: So far contains simple components for the body, sprites, inputs, spawning enemies, chasing, and tracking.
 
 11/8/2025 Update: Added a way to keep track of FPS and camera lock onto the player. Also started working on bullet spawning and enemies that spawn enemies.
 
