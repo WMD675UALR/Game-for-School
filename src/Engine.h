@@ -2,17 +2,27 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <memory>  // For std::unique_ptr
-#include "InputComponent.h"
+#include <algorithm>  // For std::remove_if
 #include "GameObject.h"
 #include "Input.h"
+#include "BodyComponent.h"
+#include <iostream>
+#include "FPS.h"
+
+struct ViewportOffset {
+    float x{0.0f};
+    float y{0.0f};
+};
 
 class Engine {
 public:
     static int width;
+    static int height;
 
     // Initialize the Engine (static)
     static bool init(const char* title, int width, int height) {
         Engine::width = width;
+        Engine::height = height;
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
             SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
             return false;
@@ -55,12 +65,23 @@ public:
         for (auto& newObj : pendingObjects) {
             gameObjects.push_back(std::move(newObj));
         }
+        
         pendingObjects.clear();
+
+        if (cameraTarget) {
+            if (auto body = cameraTarget->get<BodyComponent>()) {
+                const float targetX = static_cast<float>(width) * 0.5f - static_cast<float>(body->width()) * 0.5f - static_cast<float>(body->x());
+                const float targetY = static_cast<float>(height) * 0.5f - static_cast<float>(body->height()) * 0.5f - static_cast<float>(body->y());
+
+                viewport.x = targetX;
+                viewport.y = targetY;
+            }
+        }
     }
 
     // Render all game objects (static)
     static void render() {
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_SetRenderDrawColor(renderer, 94, 92, 87, 255);
         SDL_RenderClear(renderer);
 
         for (auto& gameObject : gameObjects) {
@@ -92,21 +113,37 @@ public:
         pendingObjects.push_back(std::move(gameObject));  // Add the game object to the pending list
     }
 
-    // Run the engine (static)
+    static void removeGameObject(std::unique_ptr<GameObject> gameObject) {
+        dyingObjects.push_back(std::move(gameObject));  // Add the game object to the dying list
+    }
+
+    //Run the engine (static)
+    
     static void run() {
         while (isRunning) {
             handleEvents();
             update();
             render();
-            SDL_Delay(16);
+            fps.update();
+
         }
 
-        clean();
     }
 
     static SDL_Renderer* getRenderer() {
         return renderer;
     }
+
+    static void setCameraTarget(GameObject* target) {
+        cameraTarget = target;
+    }
+
+    static const ViewportOffset& getViewport() {
+        return viewport;
+    }
+
+    //int addObject();
+    //Object* getObject(int uuid) {return objects[uuid].get();}
 
 private:
     static bool isRunning;                               // Engine running state (static)
@@ -114,4 +151,11 @@ private:
     static SDL_Renderer* renderer;                       // SDL renderer (static)
     static std::vector<std::unique_ptr<GameObject>> gameObjects;  // Track game objects
     static std::vector<std::unique_ptr<GameObject>> pendingObjects;  // Objects to add next frame
+    static std::vector<std::unique_ptr<GameObject>> dyingObjects;  // Objects to remove next frame
+    static ViewportOffset viewport;
+    static GameObject* cameraTarget;
+    static FPS fps;
+    //static std::map<int, std::unique_ptr<Object>> objects;
+    //int uuidCounter = 0;
+    //static std::map<int, std::unique_ptr<GameObject>> objectsToAdd;
 };

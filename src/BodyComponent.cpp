@@ -7,7 +7,4 @@ BodyComponent::BodyComponent(GameObject& owner, float x, float y, int width, int
 void BodyComponent::update() {
     _x += _vx;
     _y += _vy;
-
-    //_x += _vx * _deltaTime;
-    //_y += _vy * _deltaTime;
 }

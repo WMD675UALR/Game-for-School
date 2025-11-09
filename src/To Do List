@@ -2,8 +2,9 @@
 2. Add player input for moving WASD and shooting with left mouse button (will eventually spawn a projectile with a projectileComponent)
 3. Add factory component to spawn in objects from an xml file
 6. Make actual .png for everything
-
-
-4. Add object spawn component to spawn items in set places around the map using own method
 5. Have shooting spawn bullets
+
+6. Add a way to remove objects
+7. Figure out pausing the game
+8. Make a view screen
 

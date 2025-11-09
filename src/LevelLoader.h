@@ -31,8 +31,10 @@ public:
                 double angle = bodyElement->DoubleAttribute("angle", 0.0);
                 double vx = bodyElement->DoubleAttribute("velocityX", 0.0);
                 double vy = bodyElement->DoubleAttribute("velocityY", 0.0);
+                double width = bodyElement->DoubleAttribute("width", 64.0);
+                double height = bodyElement->DoubleAttribute("height", 64.0);
                 
-                gameObject->add<BodyComponent>(x, y, angle, vx, vy);
+                gameObject->add<BodyComponent>(x, y, width, height, angle, vx, vy);
             }
             
             // Parse SpriteComponent
@@ -51,6 +53,11 @@ public:
                 int left = slideElement->IntAttribute("left", 0);
                 int right = slideElement->IntAttribute("right", 0);
                 gameObject->add<SlideComponent>(speed, left, right);
+            }
+            
+            tinyxml2::XMLElement* wanderElement = gameObjectElement->FirstChildElement("WanderComponent");
+            if (wanderElement) {
+                gameObject->add<WanderComponent>();
             }
             
             // Add the GameObject to the Engine

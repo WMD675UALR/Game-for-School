@@ -5,17 +5,19 @@
 #include "SpriteComponent.h"
 #include "ChasingComponent.h"
 #include "TrackingComponent.h"
+#include "DecayComponent.h"
 #include "Engine.h"
 #include <iostream>
 #include <chrono>
 
 class EnemySpawnComponent : public Component {
 public:
-    EnemySpawnComponent(GameObject& object, GameObject& gameObject1) : Component(object), _object(object), _gameObject1(gameObject1), _spawnRate(5.0f), _spawnTimer(0.0f) {}
+    EnemySpawnComponent(GameObject& object, GameObject& spawnPoint, GameObject& target) : Component(object), _object(object), _spawnPoint(spawnPoint), _target(target), _spawnRate(5.0f), _spawnTimer(0.0f) {}
 
     void update() override {
         float deltaTime = 1.0f / 60.0f;
         _spawnTimer += deltaTime;
+        
         if (_spawnTimer >= _spawnRate) {
             spawnEnemy();
             std::cout << "Spawning enemy" << std::endl;
@@ -30,23 +32,17 @@ public:
     void spawnEnemy() {
         auto enemy = std::make_unique<GameObject>();
         enemy->add<SpriteComponent>("enemy");
-        enemy->add<BodyComponent>(400, 400, 0, 10, 10);
-        enemy->add<ChasingComponent>(_gameObject1);
-        enemy->add<TrackingComponent>(_gameObject1);
+        //enemy->add<BodyComponent>(400, 400, 0, 10, 10);
+        enemy->add<BodyComponent>(_spawnPoint.get<BodyComponent>()->x(), _spawnPoint.get<BodyComponent>()->y(), 64, 64, 0, 10, 10);
+        enemy->add<ChasingComponent>(_target);
+        enemy->add<TrackingComponent>(_target);
         Engine::addGameObject(std::move(enemy));
     }
 
-    //void xCord() {
-      //  return (_gameObject1.x() + 100);
-    //}
-
-    //void yCord() {
-      //  return (_gameObject1.y() + 100);
-    //}
-
 private:
     GameObject& _object;
-    GameObject& _gameObject1;
+    GameObject& _target;
+    GameObject& _spawnPoint;
     float _spawnRate = 300.0f;
     float _spawnTimer = 0.0f;
 };

@@ -45,6 +45,18 @@ public:
         }
     }
 
+    void destroy() {
+        //for (auto& pair : components) {
+        //    pair.second->destroy();
+        //}
+        beingDestroyed = true;
+    }
+
+    bool isBeingDestroyed() {
+        return beingDestroyed;
+    }
+
 private:
     std::unordered_map<int, std::unique_ptr<Component>> components;
+    bool beingDestroyed = false;
 };
