@@ -14,3 +14,15 @@
     <SpriteComponent textureKey="DroneFactory.png" />
     <WanderComponent />
 </GameObject>
+
+<GameObject id="4">
+    <BodyComponent x="300" y="400" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
+    <SpriteComponent textureKey="enemy.png" />
+</GameObject>
+
+<GameObject id="5">
+    <BodyComponent x="500" y="500" width="128" height="128" velocityX="0" velocityY="0" angle="0" />
+    <SpriteComponent textureKey="drone.png" />
+    <WanderComponent />
+    <EnemySpawnComponent target="6" />
+</GameObject>
