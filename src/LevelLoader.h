@@ -59,6 +59,11 @@ public:
             if (wanderElement) {
                 gameObject->add<WanderComponent>();
             }
+
+            tinyxml2::XMLElement* inputElement = gameObjectElement->FirstChildElement("InputComponent");
+            if (inputElement) {
+                gameObject->add<InputComponent>();
+            }
             
             // Add the GameObject to the Engine
             Engine::addGameObject(std::move(gameObject));

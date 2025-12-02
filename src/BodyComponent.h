@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include <box2d/box2d.h>
 
 class BodyComponent : public Component {
 public:
@@ -8,6 +9,8 @@ public:
 
     BodyComponent(GameObject& owner, double x, double y, double width, double height, double angle, double vx, double vy) 
     : Component(owner), _x(x), _y(y), _width(width), _height(height), _angle(angle), _vx(vx), _vy(vy) {}
+    
+    b2BodyId bodyId;
 
     double& x() { return _x; }
     double& y() { return _y; }

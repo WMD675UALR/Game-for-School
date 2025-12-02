@@ -30,8 +30,8 @@ public:
         body->vx() = cos(body->angle()) * 10;
         body->vy() = sin(body->angle()) * 10;
         
-        body->x() += body->vx() * (fps.getDeltaTime());
-        body->y() += body->vy() * (fps.getDeltaTime());
+        body->x() += body->vx() * (2 * (fps.getDeltaTime()));
+        body->y() += body->vy() * (2 * (fps.getDeltaTime()));
 
         if(hypot(targetBody->x() - body->x(), targetBody->y() - body->y()) < 5) {
             //std::cout << "Collision detected" << std::endl;

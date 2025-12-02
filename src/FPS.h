@@ -17,9 +17,9 @@ public:
 
         float currentFPS = 1000.0f / frameTime;
         //std::cout << "FPS: " << currentFPS << std::endl;
-        deltaTime = frameTime / 1000.0f;
+        deltaTime = 2 * (frameTime / 1000.0f);
 
-        std::cout << "deltaTime" << getDeltaTime() << std::endl;
+        //std::cout << "deltaTime" << getDeltaTime() << std::endl;
     }
 
     float getDeltaTime() {

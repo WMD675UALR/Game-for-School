@@ -15,6 +15,9 @@
 #include "Textures.h"
 #include "FPS.h"
 #include <iostream>
+#include <box2d/box2d.h>
+#include "BoxComponent.h"
+#include "StaticComponent.h"
 
 using namespace std;
 
@@ -30,41 +33,28 @@ int main(int argc, char* argv[]) {
     Textures::load("coin.png", "assets/textures/coin.png", renderer);
     Textures::load("chest.png", "assets/textures/Loot.png", renderer);
     Textures::load("DroneFactory.png", "assets/textures/DroneFactory.png", renderer);
-    Textures::load("hero", "assets/textures/Playerpngs/Bob.png", renderer);
-    Textures::load("enemy", "assets/textures/Enemypngs/BasicDronepng1.png", renderer);
-    Textures::load("drone", "assets/textures/DroneFactory.png", renderer);
-    //Textures::load("bullet", "assets/textures/squirrel.png", renderer);
+    Textures::load("hero.png", "assets/textures/Playerpngs/Bob.png", renderer);
+    Textures::load("enemy.png", "assets/textures/Enemypngs/BasicDronepng1.png", renderer);
+    Textures::load("drone.png", "assets/textures/DroneFactory.png", renderer);
 
     // Load level from XML
     LevelLoader::loadLevel("assets/level1.xml");
-
+    
     auto gameObject1 = std::make_unique<GameObject>();
-    gameObject1->add<SpriteComponent>("hero");  // Use texture key "hero"
-    //gameObject1->add<BodyComponent>(100, 200, 0, 0, 0);  // BodyComponent with position (100, 200)
+    gameObject1->add<SpriteComponent>("hero.png");
     gameObject1->add<BodyComponent>(100, 200, 64, 64, 0, 0, 0);
-    //gameObject1->add<EnemySpawnComponent>(*gameObject1);
     gameObject1->add<InputComponent>();
     Engine::setCameraTarget(gameObject1.get());
-    
+    gameObject1->add<BoxComponent>(64, 64);
+
     auto gameObject2 = std::make_unique<GameObject>();
-    gameObject2->add<SpriteComponent>("enemy");  // Use texture key "enemy"
-    //gameObject2->add<BodyComponent>(300, 400, 0, 0, 0);  // BodyComponent with position (300, 400)
-    gameObject2->add<BodyComponent>(300, 400, 64, 64, 0, 0, 0);
-    //gameObject2->add<ChasingComponent>(*gameObject1);  
-    //gameObject2->add<TrackingComponent>(*gameObject1); 
-
-
-    auto gameObject3 = std::make_unique<GameObject>();
-    gameObject3->add<SpriteComponent>("drone");  
-    gameObject3->add<BodyComponent>(500, 500, 128, 128, 0, 0, 0);
-    gameObject1->add<EnemySpawnComponent>(*gameObject3,*gameObject1);
-    gameObject3->add<WanderComponent>();
+    gameObject2->add<SpriteComponent>("coin.png");
+    gameObject2->add<BodyComponent>(200, 200, 64, 64, 0, 0, 0);
+    gameObject2->add<StaticComponent>(16, 16);
 
     // Add game objects to the engine
     Engine::addGameObject(std::move(gameObject1));
     Engine::addGameObject(std::move(gameObject2));
-    Engine::addGameObject(std::move(gameObject3));
-
     // Run the engine, which will handle updating and drawing the game objects
     Engine::run();
 

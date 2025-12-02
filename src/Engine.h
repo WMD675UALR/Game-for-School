@@ -8,6 +8,7 @@
 #include "BodyComponent.h"
 #include <iostream>
 #include "FPS.h"
+#include <box2d/box2d.h>
 
 struct ViewportOffset {
     float x{0.0f};
@@ -23,6 +24,12 @@ public:
     static bool init(const char* title, int width, int height) {
         Engine::width = width;
         Engine::height = height;
+
+        b2WorldDef worldDef = b2DefaultWorldDef();
+        worldDef.gravity = {0.0f, 0.0f};
+        worldId = b2CreateWorld(&worldDef);
+    
+
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
             SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
             return false;
@@ -66,6 +73,22 @@ public:
             gameObjects.push_back(std::move(newObj));
         }
         
+        // Remove destroyed objects
+        gameObjects.erase(
+            std::remove_if(gameObjects.begin(), gameObjects.end(),
+                [](const std::unique_ptr<GameObject>& obj) {
+                    return obj->isBeingDestroyed();
+                }),
+            gameObjects.end()
+        );
+
+
+        const float timeStep = 1.0f / 60.0f;
+        const int subStepCount = 4;
+
+        b2World_Step(worldId, timeStep, subStepCount);
+        //std::cout << "Physics updated" << std::endl;
+
         pendingObjects.clear();
 
         if (cameraTarget) {
@@ -93,6 +116,8 @@ public:
 
     // Clean up SDL resources (static)
     static void clean() {
+        //b2DestroyWorld(worldId);
+
         if (renderer) {
             SDL_DestroyRenderer(renderer);
         }
@@ -113,10 +138,16 @@ public:
         pendingObjects.push_back(std::move(gameObject));  // Add the game object to the pending list
     }
 
-    static void removeGameObject(std::unique_ptr<GameObject> gameObject) {
-        dyingObjects.push_back(std::move(gameObject));  // Add the game object to the dying list
+    static void removeGameObject(GameObject* gameObject) {
+        // Find and mark the object for removal
+        if (gameObject) {
+            gameObject->destroy();
+        }
     }
 
+    static b2WorldId getWorldId() {
+        return worldId;
+    }
     //Run the engine (static)
     
     static void run() {
@@ -155,6 +186,7 @@ private:
     static ViewportOffset viewport;
     static GameObject* cameraTarget;
     static FPS fps;
+    static b2WorldId worldId;
     //static std::map<int, std::unique_ptr<Object>> objects;
     //int uuidCounter = 0;
     //static std::map<int, std::unique_ptr<GameObject>> objectsToAdd;
