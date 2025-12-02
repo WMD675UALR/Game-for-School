@@ -3,3 +3,5 @@
 11/8/2025 Update: Added a way to keep track of FPS and camera lock onto the player. Also started working on bullet spawning and enemies that spawn enemies.
 
 <img width="794" height="600" alt="DemoScreenshot" src="https://github.com/user-attachments/assets/7499279e-812d-48de-89c8-7fc9aa16c151" />
+
+12/1/2025 Update: BOX2D implementation in the Engine and Input component. Currently allows for rough adding and deleting objects in addition very rough physics.
