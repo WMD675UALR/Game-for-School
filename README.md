@@ -7,3 +7,9 @@
 12/1/2025 Update: BOX2D implementation in the Engine and Input component. Currently allows for rough adding and deleting objects in addition very rough physics.
 
 Demo Day 12/1 Link - https://youtu.be/l-EOufpmr_g
+
+12/9/2025 Final Changes Update: Added music, leveling up, and full on physics. I also flushed out shooting and fixed movement. Overall mainly just bug fixing and smoothing out what needed to be done
+
+Slide Deck Link - https://docs.google.com/document/d/18Oowix4uo_Dh4E4zTPc4maBwg-SYSW7igtNN1IYPV1w/edit?tab=t.0
+
+
