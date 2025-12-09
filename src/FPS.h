@@ -26,10 +26,19 @@ public:
         return deltaTime;
     }
 
+    int getWorldExp() {
+        return worldExp;
+    }
+
+    void setWorldExp(int exp) {
+        worldExp = exp;
+    }
+
 private:
     int targetFrameTime = 1000/60;
     int idealFPS = 60;
     Uint32 lastTime = SDL_GetTicks();
     float deltaTime = 0.0f;
     int frameTime = 0;
+    int worldExp = 0;
 };

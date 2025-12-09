@@ -1,28 +1,27 @@
 <GameObject id="1">
     <BodyComponent x="50" y="100" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
     <SpriteComponent textureKey="coin.png" />
-    <SlideComponet left="0" right="300" />
-</GameObject>
- 
-<GameObject id="2">
-    <BodyComponent x="150" y="300" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
-    <SpriteComponent textureKey="chest.png" />
+    <BoxComponent width="64" height="64" />
 </GameObject>
  
 <GameObject id="3">
     <BodyComponent x="300" y="450" width="128" height="128" velocityX="0" velocityY="0" angle="15" />
     <SpriteComponent textureKey="DroneFactory.png" />
+    <BoxComponent width="128" height="128" />
+    <StatComponent health="500" maxHealth="500" speed="300" attack="10" defense="10" luck="10" experience="0" level="1" expDrop="10" />
     <WanderComponent />
 </GameObject>
 
 <GameObject id="4">
     <BodyComponent x="300" y="400" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
     <SpriteComponent textureKey="enemy.png" />
+    <BoxComponent width="64" height="64" />
+    <StatComponent health="100" maxHealth="100" speed="100" attack="10" defense="10" luck="10" experience="0" level="1" expDrop="10" />
 </GameObject>
 
 <GameObject id="5">
-    <BodyComponent x="500" y="500" width="128" height="128" velocityX="0" velocityY="0" angle="0" />
-    <SpriteComponent textureKey="drone.png" />
-    <WanderComponent />
-    <EnemySpawnComponent target="6" />
+    <BodyComponent x="200" y="200" width="64" height="64" velocityX="0" velocityY="0" angle="0" />
+    <SpriteComponent textureKey="coin.png" />
+    <BoxComponent width="64" height="64" />
+    <StaticComponent width="16" height="16" />
 </GameObject>

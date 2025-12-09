@@ -6,7 +6,13 @@
 #include "Engine.h"
 #include "BodyComponent.h"
 #include "SpriteComponent.h"
+#include "StatComponent.h"
 #include "SlideComponent.h"
+#include "StaticComponent.h"
+#include "EnemySpawnComponent.h"
+#include "TrackingComponent.h"
+#include "ChasingComponent.h"
+#include "AudioComponent.h"
 #include <SDL2/SDL.h>
 
 class LevelLoader {
@@ -64,7 +70,29 @@ public:
             if (inputElement) {
                 gameObject->add<InputComponent>();
             }
-            
+
+            tinyxml2::XMLElement* statElement = gameObjectElement->FirstChildElement("StatComponent");
+            if (statElement) {
+                int health = statElement->IntAttribute("health", 100);
+                int maxHealth = statElement->IntAttribute("maxHealth", 100);
+                int speed = statElement->IntAttribute("speed", 30);
+                int attack = statElement->IntAttribute("attack", 10);
+                int defense = statElement->IntAttribute("defense", 10);
+                int luck = statElement->IntAttribute("luck", 10);
+                int experience = statElement->IntAttribute("experience", 0);
+                int level = statElement->IntAttribute("level", 1);
+                int expDrop = statElement->IntAttribute("expDrop", 10);
+                gameObject->add<StatComponent>(health, maxHealth, speed, attack, defense, luck, experience, level, expDrop);
+            }
+
+            tinyxml2::XMLElement* audioElement = gameObjectElement->FirstChildElement("AudioComponent");
+            if (audioElement) {
+                const char* audioKey = audioElement->Attribute("audioKey");
+                if (audioKey) {
+                    gameObject->add<AudioComponent>(std::string(audioKey));
+                }
+            }
+
             // Add the GameObject to the Engine
             Engine::addGameObject(std::move(gameObject));
             

@@ -6,7 +6,9 @@
 #include "ChasingComponent.h"
 #include "TrackingComponent.h"
 #include "DecayComponent.h"
+#include "BoxComponent.h"
 #include "Engine.h"
+#include "StatComponent.h"
 #include <iostream>
 #include <chrono>
 
@@ -31,12 +33,15 @@ public:
 
     void spawnEnemy() {
         auto enemy = std::make_unique<GameObject>();
-        enemy->add<SpriteComponent>("enemy");
+        enemy->add<SpriteComponent>("enemy.png");
         //enemy->add<BodyComponent>(400, 400, 0, 10, 10);
         enemy->add<BodyComponent>(_spawnPoint.get<BodyComponent>()->x(), _spawnPoint.get<BodyComponent>()->y(), 64, 64, 0, 10, 10);
         enemy->add<ChasingComponent>(_target);
         enemy->add<TrackingComponent>(_target);
+        enemy->add<BoxComponent>(64, 64);
+        enemy->add<StatComponent>(10, 10, 10, 10, 10, 10, 0, 1, 10);
         Engine::addGameObject(std::move(enemy));
+        std::cout << "Enemy spawned" << std::endl;
     }
 
 private:

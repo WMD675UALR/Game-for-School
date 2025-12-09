@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include <box2d/box2d.h>
 #include <iostream>
+#include <cmath>
 #include "GameObject.h"
 
 class BoxComponent : public Component {
@@ -31,6 +32,13 @@ public:
         auto bodyComp = parent().get<BodyComponent>();
         if (!bodyComp) return;
         b2DestroyBody(bodyComp->bodyId);
+    }
+
+    void ApplyLinearVelocity(b2Vec2 velocity) {
+        auto bodyComp = parent().get<BodyComponent>();
+        if (!bodyComp) return;
+
+        b2Body_SetLinearVelocity(bodyComp->bodyId, velocity);
     }
 
 private:

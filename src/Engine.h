@@ -9,6 +9,8 @@
 #include <iostream>
 #include "FPS.h"
 #include <box2d/box2d.h>
+#include <SDL2/SDL_mixer.h>
+#include <string>
 
 struct ViewportOffset {
     float x{0.0f};
@@ -28,7 +30,24 @@ public:
         b2WorldDef worldDef = b2DefaultWorldDef();
         worldDef.gravity = {0.0f, 0.0f};
         worldId = b2CreateWorld(&worldDef);
+
+
+        SDL_Init(SDL_INIT_AUDIO);
+        Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLAC);
+        if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+            SDL_Log("Failed to open audio: %s", Mix_GetError());
+        } else {
+            SDL_Log("Audio initialized successfully");
+        }
+        Mix_Volume(-1, MIX_MAX_VOLUME); // Set max volume for all channels
     
+        Mix_Chunk* backgroundMusic = Mix_LoadWAV("assets/music/Background.wav");
+        if (!backgroundMusic) {
+            SDL_Log("Failed to load background music: %s", Mix_GetError());
+            return false;
+        }
+        Mix_PlayChannel(-1, backgroundMusic, -1);
+
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0) {
             SDL_Log("Failed to initialize SDL: %s", SDL_GetError());
@@ -116,7 +135,8 @@ public:
 
     // Clean up SDL resources (static)
     static void clean() {
-        //b2DestroyWorld(worldId);
+        b2DestroyWorld(worldId);
+        worldId = b2_nullWorldId;
 
         if (renderer) {
             SDL_DestroyRenderer(renderer);
@@ -171,6 +191,11 @@ public:
 
     static const ViewportOffset& getViewport() {
         return viewport;
+    }
+
+    // Get all game objects (for collision detection)
+    static const std::vector<std::unique_ptr<GameObject>>& getGameObjects() {
+        return gameObjects;
     }
 
     //int addObject();

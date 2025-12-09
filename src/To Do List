@@ -1,10 +1,6 @@
-1. Fix enemy spawning so it does not crash the game
-2. Add player input for moving WASD and shooting with left mouse button (will eventually spawn a projectile with a projectileComponent)
-3. Add factory component to spawn in objects from an xml file
-6. Make actual .png for everything
-5. Have shooting spawn bullets
-
-6. Add a way to remove objects
-7. Figure out pausing the game
-8. Make a view screen
-
+1. Finish Shooting
+2. Add collison detection for projectiles
+3. Fix movement//////////////////////////////////////////////////////////////////
+4. Add sound effects
+5. Add Stats/////////////////////////////////////////////////////////////
+6. Save/Load Functionality

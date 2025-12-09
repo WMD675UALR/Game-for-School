@@ -12,4 +12,4 @@ int Engine::height = 0;
 ViewportOffset Engine::viewport{};
 GameObject* Engine::cameraTarget = nullptr;
 FPS Engine::fps{};
-b2WorldId Engine::worldId{};
+b2WorldId Engine::worldId = b2_nullWorldId;
